@@ -1,17 +1,16 @@
 #include <iostream>
 #include <cmath>
-#include <tuple>
 #include <limits>
 #include <string>
 #include <sstream>
-#include <utility>
+#include <tuple>
 
 class Fence
 {
 	public:
 		Fence(int fence_length = 0, int side_a = 0, int side_b = 0, int area = 0) : m_fence_length(fence_length), m_side_a(side_a), m_side_b(side_b), m_area(area) {};
 
-		std::pair <Fence, Fence> calculateSidesAndArea(); //possible one or two sets of two values
+		std::tuple <Fence, Fence> calculateSidesAndArea(); //possible one or two sets of two values
 		bool isEmpty();
 		void showResults(Fence& fence_two);
 	
@@ -24,7 +23,7 @@ class Fence
 		void setFenceLength();
 		void calculateArea(); //a*b
 		int getArea();
-		std::pair <Fence, Fence> setFenceWithBiggerArea(Fence& fence_two);
+		std::tuple <Fence, Fence> setFenceWithBiggerArea(Fence& fence_two);
 	
 		
 };

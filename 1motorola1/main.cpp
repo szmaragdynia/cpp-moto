@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include <tuple>
 #include <limits>
 #include <string>
 #include <sstream>
+#include <tuple>
 #include "Fence.hpp"
 
 using std::cout;

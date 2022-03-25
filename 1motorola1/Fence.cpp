@@ -1,9 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include <tuple>
-#include <limits>
-#include <string>
-#include <sstream>
 #include "Fence.hpp"
 #include "Utilities.hpp"
 
@@ -15,7 +11,7 @@ using std::string;
 
 //--------------public
 
-std::pair <Fence, Fence> Fence::calculateSidesAndArea()
+std::tuple <Fence, Fence> Fence::calculateSidesAndArea()
 {
 	setFenceLength();
 	float side_a_float = m_fence_length / 4.0; //parabola's tip coordinate - parabola equation: -2a^2 + a*fence_length; equation describes side a as a function of area
@@ -26,7 +22,7 @@ std::pair <Fence, Fence> Fence::calculateSidesAndArea()
 		m_side_a = static_cast<int>(side_a_float);
 		m_side_b = m_fence_length / 2; //resulting from 2a_side+b_side=fence_length, when a_side is at parabola's tip.
 		calculateArea();
-		return std::make_pair(*this, fence_two);
+		return std::make_tuple(*this, fence_two);
 	}
 	else //find floor and ceiling od "side_a" and solve for b. 
 	{
@@ -55,7 +51,7 @@ std::pair <Fence, Fence> Fence::calculateSidesAndArea()
 
 			*this = Fence();
 
-			return std::make_pair(*this, fence_two);
+			return std::make_tuple(*this, fence_two);
 		}
 
 	}
@@ -122,19 +118,19 @@ int Fence::getArea()
 	return m_area;
 }
 
-std::pair <Fence, Fence> Fence::setFenceWithBiggerArea(Fence& fence_two)
+std::tuple <Fence, Fence> Fence::setFenceWithBiggerArea(Fence& fence_two)
 {
 	if (fence_two.getArea() == this->m_area)	//if areas to both solutions equal
-		return std::make_pair(*this, fence_two);
+		return std::make_tuple(*this, fence_two);
 	else if (fence_two.getArea() > this->m_area)	//else zero the smaller one
 	{
 		*this = Fence();
-		return std::make_pair(*this, fence_two);
+		return std::make_tuple(*this, fence_two);
 	}
 	else if (fence_two.getArea() < this->m_area)	//else zero the smaller one
 	{
 		fence_two = Fence();
-		return std::make_pair(*this, fence_two);
+		return std::make_tuple(*this, fence_two);
 	}
 }
 
