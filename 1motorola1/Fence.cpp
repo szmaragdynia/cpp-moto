@@ -13,77 +13,129 @@ using std::string;
 
 
 
-std::tuple <int,int,int,int> Fence::calculateFenceSides()
-{
-	m_fence_length = getFenceLength();
-	float side_a_float = m_fence_length /4.0; //parabola's tip coordinate - parabola equation: -2a^2 + a*fence_length
+//--------------public
 
-	if( isInteger(side_a_float) )
+std::pair <Fence, Fence> Fence::calculateSidesAndArea()
+{
+	setFenceLength();
+	float side_a_float = m_fence_length / 4.0; //parabola's tip coordinate - parabola equation: -2a^2 + a*fence_length; equation describes side a as a function of area
+	Fence fence_two;
+
+	if (isInteger(side_a_float))	//if max floating-point area results in integer sides
 	{
 		m_side_a = static_cast<int>(side_a_float);
-		m_side_b = m_fence_length /2; //resulting from 2a_side+b_side=fence_length, when a_side is at parabola's tip.
-		return std::make_tuple(m_side_a, m_side_b, 0, 0);
+		m_side_b = m_fence_length / 2; //resulting from 2a_side+b_side=fence_length, when a_side is at parabola's tip.
+		calculateArea();
+		return std::make_pair(*this, fence_two);
 	}
-	else //find floor and ceiling "side_a" integers and solve for b. 
+	else //find floor and ceiling od "side_a" and solve for b. 
 	{
 		int side_a_first = floor(side_a_float);
-		int side_b_first = m_fence_length - 2*side_a_first;
+		int side_b_first = m_fence_length - 2 * side_a_first;
 		int side_a_second = ceil(side_a_float);
-		int side_b_second = m_fence_length - 2*side_a_second;
+		int side_b_second = m_fence_length - 2 * side_a_second;
 
-		if (side_a_first > 0 && side_b_first > 0)
+		if (side_a_first > 0 && side_b_first > 0) //if first solution is possible,set it
 		{
-			m_side_a = side_a_first;
-			m_side_b = side_b_first;
+			*this = Fence(this->m_fence_length, side_a_first, side_b_first);
+			calculateArea();
 
-			if (side_a_second > 0 && side_b_second > 0)
+			if (side_a_second > 0 && side_b_second > 0) //check if another solution exists
 			{
-				Fence fence_two;
-				fence_two.m_fence_length = this->m_fence_length;	//lepiej konstruktorem
+				fence_two = Fence(this->m_fence_length, side_a_second, side_b_second);
+				fence_two.calculateArea();
 
+				return setFenceWithBiggerArea(fence_two);
 			}
 		}
-		return std::make_tuple(side_a_first, side_b_first, side_a_second, side_b_second);
+		else if (side_a_second > 0 && side_b_second > 0) //if first solution not possible, check if second is possible,zero first and use second solution.
+		{
+			fence_two = Fence(this->m_fence_length, side_a_second, side_b_second);
+			fence_two.calculateArea();
+
+			*this = Fence();
+
+			return std::make_pair(*this, fence_two);
+		}
+
 	}
 
 }
 
-int Fence::getFenceLength()
+bool Fence::isEmpty()
+{
+	if (m_fence_length == 0)
+		return true;
+	else
+		return false;
+}
+
+void Fence::showResults(Fence& fence_two)
+{
+	cout << "Your optimal fence sides are: \n";
+
+	if (!this->isEmpty())
+	{
+		cout << "a = " << this->m_side_a << ", b = " << this->m_side_b << std::endl;
+		if (!fence_two.isEmpty())
+		{
+			cout << "a = " << fence_two.m_side_a << ", b = " << fence_two.m_side_b << std::endl;
+			cout << "This results in area of " << m_area << " m^2" << std::endl;	//if both not empty, area is the same
+		}
+		else
+			cout << "This results in area of " << m_area << " m^2" << std::endl;
+	}
+	else if (!fence_two.isEmpty())
+	{
+		cout << "a = " << fence_two.m_side_a << ", b = " << fence_two.m_side_b << std::endl;
+		cout << "This results in area of " << fence_two.getArea() << " m^2" << std::endl;
+
+	}
+	else
+		cout << "We could not calculate the integer sides out of given fence length." << std::endl;
+}
+
+
+
+//--------------private
+
+void Fence::setFenceLength()
 {
 	int fence_length = 0;
 	do
 	{
 		cout << "Enter the length (in meters) of fence available (min. 3m).\n";	//if length < 3, then no positive integer sides possible
 		fence_length = getInt();
-		
-	}while (fence_length < 3); //zrob mozliwosc wyjscia stad + tez 10 podejsc (TODO EXCEPTION) - bo tez inaczej przejdzie dalej
-								//moze mozna te petle zmergowac nie wiem
-	
-	return fence_length;
+
+	} while (fence_length < 3);
+
+	m_fence_length = fence_length;
 }
 
-int Fence::calculateArea(int side_a, int side_b)
+void Fence::calculateArea()
 {
-	return side_a*side_b;
+	m_area = m_side_a * m_side_b;
 }
 
-
-void Fence::showResults()
+int Fence::getArea()
 {
-	int side_a_first, side_b_first, side_a_second, side_b_second;
-	std::tie(side_a_first, side_b_first, side_a_second, side_b_second) = calculateFenceSides();
-	int optimal_area = 0;
-
-	cout << "Your optimal fence sides are: \n";
-	if (side_a_first > 0 && side_b_first > 0)
-	{
-		cout << "a = " << side_a_first << ", b = " << side_b_first << std::endl;
-		optimal_area = calculateArea(side_a_first, side_b_first);
-	}
-	if(side_a_second > 0 && side_b_second > 0)
-	{
-		cout << "a = " << side_a_second << ", b = " << side_b_second <<std::endl;
-		optimal_area = calculateArea(side_a_second, side_b_second);
-	}
-	cout << "Optimal area is " << optimal_area << "m^2";
+	return m_area;
 }
+
+std::pair <Fence, Fence> Fence::setFenceWithBiggerArea(Fence& fence_two)
+{
+	if (fence_two.getArea() == this->m_area)	//if areas to both solutions equal
+		return std::make_pair(*this, fence_two);
+	else if (fence_two.getArea() > this->m_area)	//else zero the smaller one
+	{
+		*this = Fence();
+		return std::make_pair(*this, fence_two);
+	}
+	else if (fence_two.getArea() < this->m_area)	//else zero the smaller one
+	{
+		fence_two = Fence();
+		return std::make_pair(*this, fence_two);
+	}
+}
+
+

@@ -22,23 +22,23 @@ int getInt()
 		cin.clear();	//in case of eof
 
 		std::stringstream convert_stream(input);
-		if(convert_stream >> input_int) //trying to read int if in the first place
+		if(convert_stream >> input_int) //trying to read int if it's at the first place
 		{
 			string leftovers;
 			getline(convert_stream, leftovers);	//reading anything after int
 			if(leftovers == "")
 			{
-				is_convert_ok = true; //user input consisted only of an int number
+				is_convert_ok = true; //it was empty; user input consisted only of an int number
 				return input_int;
 			}
 			else
 			{
-				cout << "Invalid input type. Accepting only integers1.\n";
+				cout << "Invalid input type. Accepting only integers.\n";
 			}
 		} 
 		else //there was not an int in the first place
 		{
-			cout << "Invalid input type. Accepting only integers2.\n";
+			cout << "Invalid input type. Accepting only integers.\n";
 		}
 	}
 }

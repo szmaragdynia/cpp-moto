@@ -14,11 +14,15 @@ bool chooseAction(); //Present choices
 
 int main()
 {
-    if ( !chooseAction() )//raczej zmienic na wyjatki; jezu ale brzydkie; TODO EXCEPTION
+    if ( !chooseAction() )
 		return 0;
-	Fence fence;
+	Fence fence_one;
+	Fence fence_two;
 
-	fence.showResults();
+	std::tie(fence_one, fence_two) = fence_one.calculateSidesAndArea();
+	
+	fence_one.showResults(fence_two);
+	
 	
 }
 
@@ -31,7 +35,7 @@ bool chooseAction()
 	{
 		cout << "Please, write \"RUN\" to run the algorithm. Type \"EXIT\" to exit program: ";
 		getline(cin, action);
-		cin.clear(); //in case of eof 
+		cin.clear(); //in case of eof  input
 		
 		if (action == "RUN")
 		{
@@ -46,7 +50,7 @@ bool chooseAction()
 		{
 			cout << "Bad argument. " << 9 - i << " attempts remaining\n";
 		}
-	}; //??TODO EXCEPTION - bo inaczej przechodzi dalej! + zrob mozliwosc wyjscia; a moze zrobic zamiast bool to enumy..?
+	}; 
 	cout << "Too many failed attempts. Exiting.";
 	return false;
 }
