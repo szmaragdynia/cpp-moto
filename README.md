@@ -1,5 +1,5 @@
 # Task for Motorola Academy
-I was accepted, however, I could not find full-time course in May.
+I was accepted, however, I could not find time-slots for full-time course in May (Univeristy. Next year is OK with time).
 
 # Task
 Given an user-specified amount of fence available (integer), find three sides of rectangle (integers as well), which would result in maximum area of the rectangle. 
