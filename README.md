@@ -1,5 +1,5 @@
 # Task for Motorola Academy
-I was accepted to next recruitment stage (team work), however, I could not find time for full-time course in back May and had to decline at that stage.
+I was accepted to the next recruitment stage (teamwork), however, I could not find time-slots for full-time course back in May (due to Univeristy classes this semester. Next year is OK with time).
 
 # Task
 Given an user-specified amount of fence available (integer), find three sides of rectangle (integers as well), which would result in maximum area of the rectangle. 
