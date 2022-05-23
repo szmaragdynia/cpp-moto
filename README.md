@@ -4,3 +4,5 @@ I was accepted to the next recruitment stage (teamwork), however, I could not fi
 # Task
 Given an user-specified amount of fence available (integer), find three sides of rectangle (integers as well), which would result in maximum area of the rectangle. 
 The fourth wall is infinitely long - meaning that I can assume any value.
+
+this line is a test
