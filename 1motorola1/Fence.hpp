@@ -23,7 +23,5 @@ class Fence
 		void setFenceLength();
 		void calculateArea(); //a*b
 		int getArea();
-		std::tuple <Fence, Fence> setFenceWithBiggerArea(Fence& fence_two);
-	
-		
+		std::tuple <Fence, Fence> setFenceWithBiggerArea(Fence& fence_two);	
 };

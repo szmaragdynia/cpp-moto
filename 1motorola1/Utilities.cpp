@@ -2,7 +2,6 @@
 #include <string>
 #include <sstream>
 
-
 using std::cout;
 using std::cin;
 using std::string;
@@ -44,4 +43,3 @@ bool isInteger(float value)
 {
 	return trunc(value) == value;
 }
-

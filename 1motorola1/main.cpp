@@ -22,8 +22,6 @@ int main()
 	std::tie(fence_one, fence_two) = fence_one.calculateSidesAndArea();
 	
 	fence_one.showResults(fence_two);
-	
-	
 }
 
 bool chooseAction()
@@ -54,5 +52,3 @@ bool chooseAction()
 	cout << "Too many failed attempts. Exiting.";
 	return false;
 }
-
-

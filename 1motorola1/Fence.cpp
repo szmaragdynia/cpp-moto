@@ -7,8 +7,6 @@ using std::cout;
 using std::cin;
 using std::string;
 
-
-
 //--------------public
 
 std::tuple <Fence, Fence> Fence::calculateSidesAndArea()
@@ -90,8 +88,6 @@ void Fence::showResults(Fence& fence_two)
 	else
 		cout << "We could not calculate the integer sides out of given fence length." << std::endl;
 }
-
-
 
 //--------------private
 
